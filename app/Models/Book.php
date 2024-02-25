@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Book extends Model
 {
@@ -17,5 +20,10 @@ class Book extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function scopeTitle(Builder $query, string $title): Builder
+    {
+        return $query->where('title', 'LIKE', '%' . $title . '%');
     }
 }

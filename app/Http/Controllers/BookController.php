@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest\Store_BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BookController extends Controller
 {
     //
     public function index()
     {
-        $books = Book::all();
+        $books =  QueryBuilder::for(Book::class)
+            ->allowedFilters(['title'])
+            ->get();
         if ($books) {
             return response()->json([
                 'data' => $books,
